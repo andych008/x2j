@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type='text/javascript' src='https://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js'></script>
+
+    <script type='text/javascript'>
+        $(window).load(function () {
+
+            $("#xml").val('<?xml version="1.0" encoding="utf-8"?><resources> <color name="white">#FFFFFFFF</color></resources>');
+
+            $("#convertToJsonBtn").click(function () {
+                var form = $('#formId');
+                $.ajax({
+                    type: "POST",
+                    url: 'https://82.156.169.42/res/values',
+                    // url: 'https://localhost/res/values',
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data, status) {
+                        $('#jsonArea').text(JSON.stringify(data, null, 4));
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h1>安卓to鸿蒙:资源迁移工具</h1>
+    <button id="convertToJsonBtn">XML => JSON</button>
+
+    <div>
+        <h4>安卓 XML:</h4>
+        <form id="formId">
+            <textarea name="xml" id="xml" cols="55" rows="15"></textarea>
+        </form>
+
+    </div>
+
+    <div>
+        <h4>鸿蒙JSON:</h4>
+        <textarea id="jsonArea" cols="55" rows="15"></textarea>
+    </div>
+    <div style="background-color: azure;">
+        <h5>当前支持的资源类型:</h5>
+        <ul>
+            <li>color ---> color</li>
+            <li>dimen ---> float</li>
+            <li>string ---> string</li>
+            <li>theme ---> pattern</li>
+          </ul>
+    </div>
+</body>
+
+</html>
